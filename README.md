@@ -28,5 +28,5 @@ Step-by-step. What class were you playing? Where did it happen? What triggers it
 
 # Expected Behavior: 
 
-What should happen instead? Please include proof (videos, screenshots, old retail sources).
+What should happen instead? Please include proof (videos, screenshots, old retail sources and the twinstar cataclysm database: https://cata-twinhead.twinstar.cz/).
 
