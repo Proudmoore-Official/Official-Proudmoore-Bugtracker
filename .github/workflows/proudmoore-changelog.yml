@@ -26,7 +26,7 @@ jobs:
           ISSUE_NUMBER="${{ github.event.issue.number }}"
           ISSUE_USER="${{ github.event.issue.user.login }}"
 
-          MESSAGE="📜 **Jaina's To-Do List**\nAction: **${ACTION}**\nIssue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\nDescription #${ISSUE_DESCRIPTION}: ${ISSUE_DESCRIPTION}\nReported by: ${ISSUE_USER}\n${ISSUE_URL}"
+          MESSAGE="📜 **Jaina's To-Do List**\nAction: **${ACTION}**\nIssue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\nDescription: ${ISSUE_DESCRIPTION}\nReported by: ${ISSUE_USER}\n${ISSUE_URL}"
 
           curl -H "Content-Type: application/json" \
             -X POST \
