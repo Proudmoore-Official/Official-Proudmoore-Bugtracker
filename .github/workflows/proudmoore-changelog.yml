@@ -18,19 +18,17 @@ jobs:
     steps:
       - name: Send issue update to Discord
         run: |
-          DISCORD_WEBHOOK="${{ secrets.DISCORD_WEBHOOK }}"
+          DISCORD_WEBHOOK="https://discord.com/api/webhooks/1405635010316468305/Dkb68vQUFBiNhRrIF2HFKLaq_x-4yVgOW_DmOkxJBJIbN74Mh-MAm6Cqla4YKyia95Xy"
           ACTION="${{ github.event.action }}"
           ISSUE_TITLE="${{ github.event.issue.title }}"
           ISSUE_BODY="${{ github.event.issue.body }}"
           ISSUE_URL="${{ github.event.issue.html_url }}"
           ISSUE_NUMBER="${{ github.event.issue.number }}"
           ISSUE_USER="${{ github.event.issue.user.login }}"
-          
-          # If it's a comment event, grab the comment body
           COMMENT_BODY="${{ github.event.comment.body }}"
 
           if [ "$COMMENT_BODY" != "" ]; then
-            MESSAGE="💬 **Jaina's To-Do List**\nAction: **${ACTION}**\nIssue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\nComment: ${COMMENT_BODY}\nBy: ${ISSUE_USER}\n${ISSUE_URL}"
+            MESSAGE="📜 **Jaina's To-Do List**\nAction: **${ACTION}**\nIssue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\nComment: ${COMMENT_BODY}\nBy: ${ISSUE_USER}\n${ISSUE_URL}"
           else
             MESSAGE="📜 **Jaina's To-Do List**\nAction: **${ACTION}**\nIssue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\nDescription: ${ISSUE_BODY}\nReported by: ${ISSUE_USER}\n${ISSUE_URL}"
           fi
