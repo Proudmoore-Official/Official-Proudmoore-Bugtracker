@@ -4,12 +4,13 @@ on:
   issues:
     types:
       - opened
-      - description
       - edited
-      - comment
       - closed
       - reopened
-
+  issue_comment:
+    types:
+      - created
+      - edited
 
 jobs:
   send-to-discord:
@@ -20,13 +21,19 @@ jobs:
           DISCORD_WEBHOOK="${{ secrets.DISCORD_WEBHOOK }}"
           ACTION="${{ github.event.action }}"
           ISSUE_TITLE="${{ github.event.issue.title }}"
-          ISSUE_DESCRIPTION="${{ github.event.issue.description }}"
-          ISSUE_COMMENT="${{ github.event.issue.comment }}"
+          ISSUE_BODY="${{ github.event.issue.body }}"
           ISSUE_URL="${{ github.event.issue.html_url }}"
           ISSUE_NUMBER="${{ github.event.issue.number }}"
           ISSUE_USER="${{ github.event.issue.user.login }}"
+          
+          # If it's a comment event, grab the comment body
+          COMMENT_BODY="${{ github.event.comment.body }}"
 
-          MESSAGE="📜 **Jaina's To-Do List**\nAction: **${ACTION}**\nIssue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\nDescription: **${ISSUE_DESCRIPTION}**\nReported by: ${ISSUE_USER}\n${ISSUE_URL}"
+          if [ "$COMMENT_BODY" != "" ]; then
+            MESSAGE="💬 **Jaina's To-Do List**\nAction: **${ACTION}**\nIssue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\nComment: ${COMMENT_BODY}\nBy: ${ISSUE_USER}\n${ISSUE_URL}"
+          else
+            MESSAGE="📜 **Jaina's To-Do List**\nAction: **${ACTION}**\nIssue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\nDescription: ${ISSUE_BODY}\nReported by: ${ISSUE_USER}\n${ISSUE_URL}"
+          fi
 
           curl -H "Content-Type: application/json" \
             -X POST \
