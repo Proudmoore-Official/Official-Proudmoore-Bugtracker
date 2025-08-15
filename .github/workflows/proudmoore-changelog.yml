@@ -27,10 +27,33 @@ jobs:
           ISSUE_USER="${{ github.event.issue.user.login }}"
           COMMENT_BODY="${{ github.event.comment.body }}"
 
+          # Emoji for action
+          case "$ACTION" in
+            opened)   ACTION_ICON="🆕" ;;
+            closed)   ACTION_ICON="✅" ;;
+            reopened) ACTION_ICON="🔄" ;;
+            edited)   ACTION_ICON="✏️" ;;
+            created)  ACTION_ICON="💬" ;; # comment created
+            *)        ACTION_ICON="📜" ;;
+          esac
+
+          # Function to truncate long text
+          truncate() {
+            local text="$1"
+            local max_length=500
+            if [ ${#text} -gt $max_length ]; then
+              echo "${text:0:$max_length}..."
+            else
+              echo "$text"
+            fi
+          }
+
           if [ "$COMMENT_BODY" != "" ]; then
-            MESSAGE="📜 **Jaina's To-Do List**\nAction: **${ACTION}**\nIssue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\nComment: ${COMMENT_BODY}\nBy: ${ISSUE_USER}\n${ISSUE_URL}"
+            SHORT_COMMENT=$(truncate "$COMMENT_BODY")
+            MESSAGE="$ACTION_ICON **Jaina's To-Do List**\nAction: **${ACTION}**\nIssue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\nComment: ${SHORT_COMMENT}\nBy: ${ISSUE_USER}\n${ISSUE_URL}"
           else
-            MESSAGE="📜 **Jaina's To-Do List**\nAction: **${ACTION}**\nIssue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\nDescription: ${ISSUE_BODY}\nReported by: ${ISSUE_USER}\n${ISSUE_URL}"
+            SHORT_BODY=$(truncate "$ISSUE_BODY")
+            MESSAGE="$ACTION_ICON **Jaina's To-Do List**\nAction: **${ACTION}**\nIssue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\nDescription: ${SHORT_BODY}\nReported by: ${ISSUE_USER}\n${ISSUE_URL}"
           fi
 
           curl -H "Content-Type: application/json" \
