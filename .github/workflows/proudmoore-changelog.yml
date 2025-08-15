@@ -4,7 +4,6 @@ on:
   issues:
     types:
       - opened
-      - description
       - edited
       - comment
       - closed
@@ -20,13 +19,12 @@ jobs:
           DISCORD_WEBHOOK="${{ secrets.DISCORD_WEBHOOK }}"
           ACTION="${{ github.event.action }}"
           ISSUE_TITLE="${{ github.event.issue.title }}"
-          ISSUE_DESCRIPTION="${{ github.event.issue.description }}"
           ISSUE_COMMENT="${{ github.event.issue.comment }}"
           ISSUE_URL="${{ github.event.issue.html_url }}"
           ISSUE_NUMBER="${{ github.event.issue.number }}"
           ISSUE_USER="${{ github.event.issue.user.login }}"
 
-          MESSAGE="📜 **Jaina's To-Do List**\nAction: **${ACTION}**\nIssue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\nDescription: **${ISSUE_DESCRIPTION}**\nReported by: ${ISSUE_USER}\n${ISSUE_URL}"
+          MESSAGE="📜 **Jaina's To-Do List**\nAction: **${ACTION}**\nIssue #${ISSUE_NUMBER}: ${ISSUE_TITLE}\nReported by: ${ISSUE_USER}\n${ISSUE_URL}"
 
           curl -H "Content-Type: application/json" \
             -X POST \
