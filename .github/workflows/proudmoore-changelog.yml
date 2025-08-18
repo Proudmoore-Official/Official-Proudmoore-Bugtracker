@@ -4,11 +4,8 @@ on:
   issues:
     types:
       - opened
-      - edited
-      - comment
       - closed
       - reopened
-
 
 jobs:
   send-to-discord:
@@ -19,7 +16,6 @@ jobs:
           DISCORD_WEBHOOK="${{ secrets.DISCORD_WEBHOOK }}"
           ACTION="${{ github.event.action }}"
           ISSUE_TITLE="${{ github.event.issue.title }}"
-          ISSUE_COMMENT="${{ github.event.issue.comment }}"
           ISSUE_URL="${{ github.event.issue.html_url }}"
           ISSUE_NUMBER="${{ github.event.issue.number }}"
           ISSUE_USER="${{ github.event.issue.user.login }}"
